@@ -9,45 +9,62 @@
   <body>
     <div class="right">
       <form>
-        <label form="name">name</label>
+        <label for="name">name</label>
         <input id="name" type="text" />
         <label for="content">content</label>
         <input id="content" type="text" />
-        <button id="submit" type="button" value="add to list">submit</button>
+        <button id="submit" type="button" value="add to list" disabled>
+          submit
+        </button>
       </form>
     </div>
     <div class="left"></div>
     <ol></ol>
     <script>
+      const f = () => {
+        if (name.value.length > 0 && content.value.length > 0) {
+          submit.disabled = false;
+          console.log("*");
+        } else {
+          submit.disabled = true;
+          console.log("-");
+        }
+      };
       var list = new Array();
       const name = document.getElementById("name");
       const content = document.getElementById("content");
+      const submit = document.getElementById("submit");
+      name.addEventListener("keyup", () => {
+        f();
+      });
+      content.addEventListener("keyup", () => {
+        f();
+      });
+
       const div = document.querySelector("ol");
       var del = document.querySelectorAll(".delete");
-      const submit = document
-        .getElementById("submit")
-        .addEventListener("click", (e) => {
-          list.push(name.value + " : " + content.value);
-          e.preventDefault();
-          text = "";
-          list.forEach((value, id) => {
-            text +=
-              "<li>" +
-              value +
-              "  <button class='delete'id=" +
-              id +
-              " style='padding: 0;border: none;background: none;'type='button' onclick='onl(" +
-              id +
-              ")'><i class='fa fa-trash' aria-hidden='true'></i></button></li>";
-          });
-          div.innerHTML = text;
+      document.getElementById("submit").addEventListener("click", (e) => {
+        list.push(name.value + " : " + content.value);
+        e.preventDefault();
+        text = "";
+        list.forEach((value, id) => {
+          text +=
+            "<li>" +
+            value +
+            "  <button class='delete'id=" +
+            id +
+            " style='padding: 0;border: none;background: none;'type='button' onclick='onl(" +
+            id +
+            ")'><i class='fa fa-trash' aria-hidden='true'></i></button></li>";
         });
+        div.innerHTML = text;
+      });
       function onl(id) {
         console.log(id);
         list.splice(id, 1);
         document.getElementById(id).parentNode.remove();
       }
     </script>
-    <script src="https://use.fontawesome.com/66e7736fec.js"></script>
   </body>
+  <script src="https://use.fontawesome.com/66e7736fec.js"></script>
 </html>
